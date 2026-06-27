@@ -1,4 +1,4 @@
-# Noah's Website
+# Noah DeSimone and the Revival Website
 
 Static website for Noah DeSimone and the Revival at www.noahdesimoneandtherevival.com.
 
