@@ -17,16 +17,17 @@ Collect the decisions and content needed to finish the launch without blocking o
 
 | Item | Value |
 | --- | --- |
-| Purchased domain | `noahandtherevival.com` |
-| DNS provider | TBD |
-| Canonical domain | TBD |
+| Purchased domain | `noahdesimoneandtherevival.com` |
+| Redirect domains | `noahandtherevival.com`, `www.noahandtherevival.com` |
+| DNS provider | Squarespace Domains |
+| Canonical domain | `www.noahdesimoneandtherevival.com` |
 | GitHub Pages target | `PilHliP211.github.io` |
 
 ## Band Details
 
 | Item | Value |
 | --- | --- |
-| Band name | Noah and the Revival |
+| Band name | Noah DeSimone and the Revival |
 | Short tagline | TBD |
 | Booking email | TBD |
 | Press email | TBD |
