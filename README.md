@@ -4,7 +4,7 @@ Static website for Noah and the Revival at noahandtherevival.com.
 
 ## Current Status
 
-The repository is in Phase 1 setup. The site currently serves a simple coming-soon page while the full band site is planned.
+The repository is in Phase 2. The site currently serves a polished coming-soon page while the full band site is planned.
 
 ## Deployment
 
