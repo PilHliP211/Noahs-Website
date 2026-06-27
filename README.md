@@ -4,11 +4,15 @@ Static website for Noah and the Revival at noahandtherevival.com.
 
 ## Current Status
 
-The repository is in Phase 2. The site currently serves a polished coming-soon page while the full band site is planned.
+The repository has completed Phase 3. The site serves a polished coming-soon page and deploys through GitHub Actions to GitHub Pages.
 
 ## Deployment
 
-GitHub Pages deployment through GitHub Actions is planned for Phase 3 of the roadmap.
+Pushes to `main` deploy the static site to GitHub Pages through `.github/workflows/deploy.yml`.
+
+Temporary GitHub Pages URL:
+
+https://pilhlip211.github.io/Noahs-Website/
 
 ## Local Preview
 
