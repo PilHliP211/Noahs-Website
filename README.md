@@ -1,6 +1,6 @@
-# Noah DeSimone and the Revival Website
+# Noah Desimone and the Revival Website
 
-Static website for Noah DeSimone and the Revival at www.noahdesimoneandtherevival.com.
+Static website for Noah Desimone and the Revival at www.noahdesimoneandtherevival.com.
 
 ## Current Status
 

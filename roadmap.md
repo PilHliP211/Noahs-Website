@@ -25,6 +25,7 @@ Technical guide: [Phase 2: Under-Construction Site](docs/roadmap/02-under-constr
 Build a single-page under-construction site with:
 
 - Band name
+- Phoenix/revival mark as a visible brand cue
 - "Site coming soon" message
 - Optional launch note
 - Optional links:
@@ -68,6 +69,9 @@ Technical guide: [Phase 5: First Real Band Site](docs/roadmap/05-next-version.md
 Once the placeholder page is live, expand the site into a real one-page band website:
 
 - Hero section with band photo or artwork
+- Use the phoenix mark as a small recurring icon in high-value places:
+  site header/home link, hero badge, music-link accents, show-date dividers,
+  contact/footer signoff, favicon, and social preview artwork
 - Music links
 - Upcoming shows
 - Short bio

@@ -27,7 +27,7 @@ Collect the decisions and content needed to finish the launch without blocking o
 
 | Item | Value |
 | --- | --- |
-| Band name | Noah DeSimone and the Revival |
+| Band name | Noah Desimone and the Revival |
 | Short tagline | TBD |
 | Booking email | TBD |
 | Press email | TBD |

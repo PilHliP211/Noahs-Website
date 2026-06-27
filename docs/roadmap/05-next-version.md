@@ -12,6 +12,18 @@ Replace the under-construction page with a simple, polished one-page band websit
 4. Bio
 5. Contact
 
+## Phoenix Icon Placement
+
+Use the phoenix/revival mark as a recurring brand cue, but keep it secondary to
+real band photography, music, and show information.
+
+- Site header: small home-link mark beside or above the band name.
+- Hero: seal-style mark layered near the main image or call to action.
+- Music: small accent next to featured release artwork or platform links.
+- Shows: compact divider or date marker in the show list.
+- Contact/footer: signoff mark near booking and social links.
+- Press/social: favicon, touch icon, and `assets/og-default.png` preview image.
+
 ## Technical Structure
 
 Keep the first full version static:
@@ -23,6 +35,8 @@ Keep the first full version static:
 |-- assets/
 |   |-- band-photo.jpg
 |   |-- cover-art.jpg
+|   |-- revival-mark.png
+|   |-- og-default.png
 |   `-- social-preview.jpg
 `-- .github/workflows/deploy.yml
 ```
