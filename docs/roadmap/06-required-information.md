@@ -27,17 +27,18 @@ Collect the decisions and content needed to finish the launch without blocking o
 
 | Item | Value |
 | --- | --- |
-| Band name | Noah Desimone and the Revival |
-| Short tagline | TBD |
+| Band name | Noah Desimone & The Revival |
+| Short tagline | Pensacola, Florida's premier psychedelic blues act |
 | Booking email | TBD |
 | Press email | TBD |
-| City/region | TBD |
+| City/region | Pensacola, FL |
 
 ## Links
 
 | Service | URL |
 | --- | --- |
-| Instagram | TBD |
+| Instagram | `https://www.instagram.com/noahdesimoneandtherevival` |
+| Facebook | `https://www.facebook.com/profile.php?id=61585849155897` |
 | Spotify | TBD |
 | Apple Music | TBD |
 | Bandcamp | TBD |
@@ -48,15 +49,18 @@ Collect the decisions and content needed to finish the launch without blocking o
 
 | Asset | Status |
 | --- | --- |
-| Band photo | Needed |
+| Band photo | Existing `assets/band-photo.jpeg` |
 | Logo or wordmark | Optional |
 | Cover art | Optional |
-| Social preview image | Needed before full launch |
+| Social preview image | Existing `assets/og-default.png` |
 
 ## Launch Decisions
 
-- Use plain HTML/CSS for the placeholder site.
-- Add a framework only if the next version needs dynamic data or heavier interactivity.
+- Use plain HTML/CSS/JavaScript for the first real site.
+- Maintain upcoming shows in `data/shows.json`.
+- Keep music and empty shows as intentional coming-soon states until links/dates exist.
+- Preserve the burnt umber visual palette from the placeholder site.
+- Add a framework only if a later version needs heavier interactivity.
 - Use GitHub Pages for hosting.
 - Use GitHub Actions for deployment.
 - Use HTTPS enforcement once GitHub issues the certificate.

@@ -71,11 +71,11 @@ Once the placeholder page is live, expand the site into a real one-page band web
 - Hero section with band photo or artwork
 - Use the phoenix mark as a small recurring icon in high-value places:
   site header/home link, hero badge, music-link accents, show-date dividers,
-  contact/footer signoff, favicon, and social preview artwork
-- Music links
-- Upcoming shows
+- contact/footer signoff, favicon, and social preview artwork
+- Music coming-soon section until streaming links exist
+- Upcoming shows loaded from `data/shows.json`
 - Short bio
-- Contact/booking info
+- Social/contact links
 - Newsletter or announcement signup if needed
 
 ## Open Details Needed
@@ -86,5 +86,5 @@ Tracking document: [Required Information](docs/roadmap/06-required-information.m
 - Domain name
 - GitHub account or organization name
 - Desired repo name
-- Social/music/contact links
-- Whether the site should use plain HTML/CSS or a lightweight framework later
+- Spotify/contact links
+- Whether the site should use a lightweight framework later

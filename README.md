@@ -1,10 +1,10 @@
-# Noah Desimone and the Revival Website
+# Noah Desimone & The Revival Website
 
-Static website for Noah Desimone and the Revival at www.noahdesimoneandtherevival.com.
+Static website for Noah Desimone & The Revival at www.noahdesimoneandtherevival.com.
 
 ## Current Status
 
-The repository has completed Phase 3 and is in Phase 4 custom-domain setup. The site serves a polished coming-soon page and deploys through GitHub Actions to GitHub Pages.
+The repository has a first real one-page site with bio copy, social links, music/show coming-soon states, and upcoming shows loaded from `data/shows.json`. It deploys through GitHub Actions to GitHub Pages.
 
 ## Deployment
 
@@ -26,13 +26,34 @@ https://www.noahandtherevival.com/
 
 ## Local Preview
 
-Open `index.html` in a browser, or run a small local server:
+Run a small local server so the shows JSON file can be loaded:
 
 ```sh
 python3 -m http.server 8080
 ```
 
 Then visit `http://localhost:8080`.
+
+## Updating Shows
+
+Edit `data/shows.json` and add future dates in this format:
+
+```json
+[
+  {
+    "date": "2026-08-15",
+    "venue": "Venue Name",
+    "city": "Pensacola",
+    "state": "FL",
+    "time": "8:00 PM",
+    "venueUrl": "https://example.com",
+    "ticketUrl": "https://example.com/tickets",
+    "notes": "Optional note"
+  }
+]
+```
+
+Required fields are `date`, `venue`, `city`, and `state`. If no future shows are listed, the site displays a coming-soon message.
 
 ## Roadmap
 
