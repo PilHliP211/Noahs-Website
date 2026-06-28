@@ -1,0 +1,148 @@
+# Show Management Plan
+
+## Goal
+
+Let Noah and approved collaborators add or update shows without touching git, while keeping the public website static and avoiding any server-side runtime.
+
+## Recommended Architecture
+
+Use a private Google Form and Google Sheet as the editing surface, then let GitHub Actions read the Sheet during deployment and generate a static `data/shows.json` file for the site.
+
+```text
+Google Form -> private Google Sheet -> GitHub Actions -> data/shows.json -> GitHub Pages
+```
+
+This keeps all credentials inside GitHub Actions, keeps the website static, and avoids exposing the raw Sheet to visitors.
+
+## Why This Approach
+
+- Noah can add shows from a familiar form UI.
+- Only invited Google users can edit the form or Sheet.
+- The Sheet can stay private instead of being published to the web.
+- GitHub Actions can use a read-only Google service account secret.
+- The deployed site has no server, database, or runtime dependency on Google.
+- The generated JSON can be validated, sorted, and filtered before deployment.
+
+## Data Model
+
+The form should collect:
+
+| Field | Required | Notes |
+| --- | --- | --- |
+| Show date | Yes | Use a real date field. |
+| Venue | Yes | Public venue name. |
+| City | Yes | City for display. |
+| State or region | Yes | Use two-letter state for US shows when possible. |
+| Doors time | No | Display only when provided. |
+| Show time | No | Display only when provided. |
+| Ticket URL | No | Primary call to action when available. |
+| Event URL | No | Useful for Facebook, venue pages, or RSVP links. |
+| Notes | No | Short public note only. |
+| Status | Yes | `draft`, `published`, or `canceled`. |
+
+The build should publish only rows with `Status = published`, unless canceled shows are intentionally displayed.
+
+## Google Setup
+
+1. Create a Google Form called `Noah Desimone and the Revival Shows`.
+2. Link the form responses to a private Google Sheet.
+3. Add a curated tab named `Shows`.
+4. Keep raw form responses in the default response tab.
+5. Use formulas or manual review to copy only approved public fields into `Shows`.
+6. Share the Sheet only with approved editors.
+
+The `Shows` tab should be treated as the source of truth for the website.
+
+## GitHub Actions Authentication
+
+Use a Google Cloud service account with read-only access:
+
+1. Create a Google Cloud project.
+2. Enable the Google Sheets API.
+3. Create a service account.
+4. Create a JSON key for that service account.
+5. Share the private Sheet with the service account email as a viewer.
+6. Store the JSON key in GitHub Actions as `GOOGLE_SERVICE_ACCOUNT_JSON`.
+7. Store the Sheet ID as `GOOGLE_SHEET_ID`.
+
+The website should never receive these credentials. They are only used inside GitHub Actions.
+
+## Build Process
+
+Add a script, likely `scripts/build-shows.mjs`, that:
+
+1. Authenticates with Google Sheets using `GOOGLE_SERVICE_ACCOUNT_JSON`.
+2. Reads rows from the `Shows` tab.
+3. Validates required fields.
+4. Filters unpublished rows.
+5. Sorts upcoming shows by date ascending.
+6. Optionally moves past shows to a separate list or removes them.
+7. Writes normalized data to `data/shows.json`.
+
+Example output:
+
+```json
+[
+  {
+    "date": "2026-08-14",
+    "venue": "The Basement",
+    "city": "Nashville",
+    "region": "TN",
+    "doors": "7:00 PM",
+    "time": "8:00 PM",
+    "ticketUrl": "https://example.com",
+    "eventUrl": "",
+    "notes": ""
+  }
+]
+```
+
+## Workflow Plan
+
+Add a workflow that can run manually and on a schedule:
+
+```yaml
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 * * * *"
+```
+
+The workflow should:
+
+1. Check out the repo.
+2. Install only the small Node dependencies needed for Google Sheets access.
+3. Run the show build script.
+4. Build the static site.
+5. Deploy to GitHub Pages.
+
+Hourly is enough for show listings. Manual dispatch covers urgent changes.
+
+## Website Integration
+
+Keep the frontend simple:
+
+1. Add a `Shows` section to `index.html`.
+2. Fetch `/data/shows.json` with a small client-side script.
+3. Render upcoming shows into semantic HTML.
+4. Show a quiet empty state when there are no published upcoming shows.
+5. Keep the page usable if the JSON request fails.
+
+This avoids adopting a framework before the site actually needs one.
+
+## Security Notes
+
+- Do not publish the Sheet to the web if using service account auth.
+- Do not commit Google credentials.
+- Give the service account viewer access only.
+- Keep private notes out of the `Shows` tab.
+- Treat every field in `Shows` as public website content.
+
+## Implementation Phases
+
+1. Create the private Google Form and Sheet.
+2. Create the Google service account and GitHub Actions secrets.
+3. Add `scripts/build-shows.mjs` and `data/shows.json`.
+4. Update the deploy workflow to generate shows before publishing.
+5. Add the public Shows section to the site.
+6. Test draft, published, canceled, missing URL, and no-upcoming-shows cases.

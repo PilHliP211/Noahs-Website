@@ -6,6 +6,8 @@ Static website for Noah Desimone & The Revival at www.noahdesimoneandtherevival.
 
 The repository has a first real one-page site with bio copy, social links, music/show coming-soon states, and upcoming shows loaded from `data/shows.json`. It deploys through GitHub Actions to GitHub Pages.
 
+The next planned feature is a no-server show management flow where Noah can add shows through a private Google Form/Sheet and GitHub Actions generates the static show data for the website.
+
 ## Deployment
 
 Pushes to `main` deploy the static site to GitHub Pages through `.github/workflows/deploy.yml`.
@@ -55,6 +57,6 @@ Edit `data/shows.json` and add future dates in this format:
 
 Required fields are `date`, `venue`, `city`, and `state`. If no future shows are listed, the site displays a coming-soon message.
 
-## Roadmap
+## Show Management Plan
 
-See [roadmap.md](roadmap.md).
+See [docs/show-management-plan.md](docs/show-management-plan.md).
