@@ -40,7 +40,7 @@ The form should collect:
 | Notes | No | Short public note only. |
 | Status | Yes | `draft`, `published`, or `canceled`. |
 
-The build should publish only rows with `Status = published`, unless canceled shows are intentionally displayed.
+The build should publish only rows with `Status = published`, unless canceled shows are intentionally displayed. Shows should remain visible through the day after the show date, then be hidden automatically.
 
 ## Google Setup
 
@@ -75,9 +75,10 @@ Add a script, likely `scripts/build-shows.mjs`, that:
 2. Reads rows from the `Shows` tab.
 3. Validates required fields.
 4. Filters unpublished rows.
-5. Sorts upcoming shows by date ascending.
-6. Optionally moves past shows to a separate list or removes them.
-7. Writes normalized data to `data/shows.json`.
+5. Keeps shows through one day after the show date, then hides older dates.
+6. Sorts visible shows by date ascending.
+7. Optionally moves older shows to a separate archive list or removes them.
+8. Writes normalized data to `data/shows.json`.
 
 Example output:
 
@@ -145,4 +146,4 @@ This avoids adopting a framework before the site actually needs one.
 3. Add `scripts/build-shows.mjs` and `data/shows.json`.
 4. Update the deploy workflow to generate shows before publishing.
 5. Add the public Shows section to the site.
-6. Test draft, published, canceled, missing URL, and no-upcoming-shows cases.
+6. Test draft, published, canceled, missing URL, no-upcoming-shows, same-day, next-day, and older-than-one-day cases.
