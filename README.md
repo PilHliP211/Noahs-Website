@@ -55,7 +55,7 @@ Edit `data/shows.json` and add future dates in this format:
 ]
 ```
 
-Required fields are `date`, `venue`, `city`, and `state`. If no future shows are listed, the site displays a coming-soon message.
+Required fields are `date`, `venue`, `city`, and `state`. Shows dated yesterday or earlier are hidden automatically. If no future shows are listed, the site displays a coming-soon message.
 
 ## Show Management Plan
 

@@ -16,9 +16,45 @@ function getTodayKey() {
   return `${year}-${month}-${day}`;
 }
 
-function formatShowDate(dateKey) {
+function getDateKey(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
+function parseShowDate(dateKey) {
+  if (typeof dateKey !== "string") {
+    return null;
+  }
+
   const [year, month, day] = dateKey.split("-").map(Number);
+
+  if (!year || !month || !day) {
+    return null;
+  }
+
   const date = new Date(year, month - 1, day);
+
+  if (getDateKey(date) !== dateKey) {
+    return null;
+  }
+
+  return date;
+}
+
+function formatShowDate(dateKey) {
+  const date = parseShowDate(dateKey);
+
+  if (!date) {
+    return {
+      month: "",
+      day: "",
+      year: ""
+    };
+  }
+
   const parts = new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
@@ -33,7 +69,11 @@ function formatShowDate(dateKey) {
 }
 
 function isValidShow(show) {
-  return Boolean(show?.date && show?.venue && show?.city && show?.state);
+  return Boolean(parseShowDate(show?.date ?? "") && show?.venue && show?.city && show?.state);
+}
+
+function isUpcomingShow(show) {
+  return show.date >= getTodayKey();
 }
 
 function createTextElement(tagName, className, text) {
@@ -120,11 +160,10 @@ async function renderShows() {
     }
 
     const shows = await response.json();
-    const todayKey = getTodayKey();
     const upcomingShows = Array.isArray(shows)
       ? shows
         .filter(isValidShow)
-        .filter((show) => show.date >= todayKey)
+        .filter(isUpcomingShow)
         .sort((first, second) => first.date.localeCompare(second.date))
       : [];
 
