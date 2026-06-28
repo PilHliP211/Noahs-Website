@@ -8,10 +8,11 @@ Noah Desimone & The Revival.
 ## Current Site Sections
 
 1. Hero
-2. Bio
-3. Music
-4. Shows
-5. Social/contact footer
+2. Live photo
+3. Bio
+4. Music
+5. Shows
+6. Social/contact footer
 
 ## Content Direction
 
@@ -34,7 +35,9 @@ Noah Desimone & The Revival.
 
 - Preserve the current burnt umber palette: near-black background, warm cream
   text, muted tan secondary text, burnt red-orange accent, and amber highlight.
-- Use the stage background and phoenix/revival mark as the visual identity.
+- Use the mic-stand stage background as the splash image, then feature the live
+  band photo as a full-width performance strip after the hero.
+- Use the phoenix/revival mark as a recurring accent, not the primary visual.
 - Avoid generic AI-looking patterns: fake band imagery, abstract blob
   decoration, glossy gradients, and startup-style card stacks.
 - Keep the hero performance-forward: large band name, short positioning line,
@@ -95,6 +98,7 @@ Keep the site static and GitHub Pages-friendly:
 |-- data/
 |   `-- shows.json
 |-- assets/
+|   |-- band-photo.jpeg
 |   |-- revival-mark.png
 |   |-- stage-background.jpg
 |   `-- og-default.png

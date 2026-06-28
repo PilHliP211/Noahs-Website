@@ -49,7 +49,7 @@ Collect the decisions and content needed to finish the launch without blocking o
 
 | Asset | Status |
 | --- | --- |
-| Band photo | Needed |
+| Band photo | Existing `assets/band-photo.jpeg` |
 | Logo or wordmark | Optional |
 | Cover art | Optional |
 | Social preview image | Existing `assets/og-default.png` |
