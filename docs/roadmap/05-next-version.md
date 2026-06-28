@@ -2,160 +2,116 @@
 
 ## Objective
 
-Replace the under-construction page with a simple, polished one-page band website.
+Replace the under-construction page with a polished one-page site for
+Noah Desimone & The Revival.
 
-## Recommended Site Sections
+## Current Site Sections
 
 1. Hero
-2. Music
-3. Shows
-4. Bio
-5. Contact
+2. Bio
+3. Music
+4. Shows
+5. Social/contact footer
 
-## Phoenix Icon Placement
+## Content Direction
 
-Use the phoenix/revival mark as a recurring brand cue, but keep it secondary to
-real band photography, music, and show information.
+- Use the official band name everywhere: Noah Desimone & The Revival.
+- Positioning line: Pensacola, Florida's premier psychedelic blues act.
+- Bio copy:
+  "Noah Desimone & The Revival is Pensacola, Florida's premier psychedelic
+  blues act. After performing in Blue Levee for nearly ten years, Noah Desimone
+  is proud to continue electrifying Florida audiences with a unique blend of
+  funk, acid rock, and blues."
+- Music stays visible as "Music coming soon" until Spotify or other streaming
+  links are ready.
+- Shows use a matching "Shows coming soon" state when no future dates are in
+  the data file.
+- Live social links:
+  - Instagram: `https://www.instagram.com/noahdesimoneandtherevival`
+  - Facebook: `https://www.facebook.com/profile.php?id=61585849155897`
 
-- Site header: small home-link mark beside or above the band name.
-- Hero: seal-style mark layered near the main image or call to action.
-- Music: small accent next to featured release artwork or platform links.
-- Shows: compact divider or date marker in the show list.
-- Contact/footer: signoff mark near booking and social links.
-- Press/social: favicon, touch icon, and `assets/og-default.png` preview image.
+## Design Direction
+
+- Preserve the current burnt umber palette: near-black background, warm cream
+  text, muted tan secondary text, burnt red-orange accent, and amber highlight.
+- Use the stage background and phoenix/revival mark as the visual identity.
+- Avoid generic AI-looking patterns: fake band imagery, abstract blob
+  decoration, glossy gradients, and startup-style card stacks.
+- Keep the hero performance-forward: large band name, short positioning line,
+  social/show calls to action, and enough vertical space for the next section
+  to feel connected.
+- Use full-width sections. Reserve card styling for repeated show entries.
+- Keep typography restrained outside the hero so the page feels like a real
+  band site rather than a template.
+- Use clear focus states, readable contrast, and meaningful `alt` text for
+  content images. Decorative marks should use empty `alt=""`.
+
+## Shows Data
+
+Shows are maintained manually in `data/shows.json`:
+
+```json
+[
+  {
+    "date": "2026-08-15",
+    "venue": "Venue Name",
+    "city": "Pensacola",
+    "state": "FL",
+    "time": "8:00 PM",
+    "venueUrl": "https://example.com",
+    "ticketUrl": "https://example.com/tickets",
+    "notes": "Optional note"
+  }
+]
+```
+
+Required fields:
+
+- `date`
+- `venue`
+- `city`
+- `state`
+
+Optional fields:
+
+- `time`
+- `venueUrl`
+- `ticketUrl`
+- `notes`
+
+The site filters out past dates, sorts future dates chronologically, and renders
+ticket links as the primary action. If only `venueUrl` exists, it renders a
+"Venue details" action.
 
 ## Technical Structure
 
-Keep the first full version static:
+Keep the site static and GitHub Pages-friendly:
 
 ```text
 /
 |-- index.html
 |-- styles.css
+|-- scripts.js
+|-- data/
+|   `-- shows.json
 |-- assets/
-|   |-- band-photo.jpg
-|   |-- cover-art.jpg
 |   |-- revival-mark.png
-|   |-- og-default.png
-|   `-- social-preview.jpg
+|   |-- stage-background.jpg
+|   `-- og-default.png
 `-- .github/workflows/deploy.yml
 ```
 
-Avoid adding a JavaScript framework until the site needs dynamic features.
-
-## Hero Section
-
-Content:
-
-- Band name
-- Short positioning line
-- Primary visual: band photo, show photo, or artwork
-- Main action: listen, follow, or contact
-
-Implementation notes:
-
-- Use a real image asset instead of a generic graphic.
-- Use descriptive `alt` text.
-- Keep the band name visible in the first viewport.
-
-## Music Section
-
-Content:
-
-- Spotify link
-- Apple Music link
-- Bandcamp link
-- YouTube link
-- Embedded player only if it does not slow the page down too much
-
-Implementation notes:
-
-- Use normal links first.
-- Add embeds later if needed.
-- Open external links in the same tab unless the band prefers otherwise.
-
-## Shows Section
-
-Start with manually edited HTML:
-
-```html
-<section id="shows" aria-labelledby="shows-title">
-  <h2 id="shows-title">Shows</h2>
-  <ul class="show-list">
-    <li>
-      <time datetime="2026-08-15">Aug 15, 2026</time>
-      <span>Venue Name</span>
-      <span>City, ST</span>
-      <a href="https://example.com/tickets">Tickets</a>
-    </li>
-  </ul>
-</section>
-```
-
-If shows change often, later options include:
-
-- Pulling from Bandsintown
-- Pulling from Songkick
-- Maintaining a small JSON file
-- Using a simple CMS
-
-## Bio Section
-
-Content:
-
-- 1 short paragraph for fans
-- 1 longer paragraph for press/booking
-- Optional press quote
-
-Implementation notes:
-
-- Keep the first version concise.
-- Avoid long blocks of text on mobile.
-
-## Contact Section
-
-Content:
-
-- Booking email
-- Press email if separate
-- Social links
-- Optional newsletter signup
-
-Implementation notes:
-
-- Use `mailto:` for email.
-- If spam becomes a problem, replace direct email with a form service later.
-
-## Metadata And Sharing
-
-Add basic social metadata:
-
-```html
-<meta property="og:title" content="[Band Name]">
-<meta property="og:description" content="Official website for [Band Name].">
-<meta property="og:image" content="https://www.example.com/assets/social-preview.jpg">
-<meta property="og:url" content="https://www.example.com">
-<meta name="twitter:card" content="summary_large_image">
-```
+Avoid a JavaScript framework until the site needs a CMS, embedded media widgets,
+or heavier interactivity.
 
 ## QA Checklist
 
-Before publishing the first real version:
-
 1. Test desktop, tablet, and phone widths.
-2. Click every link.
-3. Confirm all images load.
-4. Confirm image file sizes are reasonable.
-5. Run Lighthouse or PageSpeed Insights.
-6. Check the site title and meta description.
-7. Confirm contact info is correct.
-8. Confirm HTTPS works on the custom domain.
-
-## Acceptance Checklist
-
-- The site has real band content.
-- The first viewport identifies the band clearly.
-- Music links work.
-- Shows are current or intentionally hidden.
-- Contact info works.
-- The deployment workflow still succeeds.
+2. Click Instagram, Facebook, venue, ticket, and future Spotify links.
+3. Test `data/shows.json` with zero, one, and multiple future shows.
+4. Confirm invalid or past shows do not display.
+5. Confirm the empty music and shows states read as intentional coming-soon
+   content.
+6. Confirm all images load and decorative images do not create noisy alt text.
+7. Check title, meta description, Open Graph title, and social preview image.
+8. Confirm deployment still succeeds on GitHub Pages.
