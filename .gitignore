@@ -1,0 +1,6 @@
+.DS_Store
+.env
+.env.*
+data/shows.json
+google-service-account*.json
+service-account*.json

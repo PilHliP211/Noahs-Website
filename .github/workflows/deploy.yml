@@ -4,6 +4,8 @@ on:
   push:
     branches: ["main"]
   workflow_dispatch:
+  schedule:
+    - cron: "17 * * * *"
 
 permissions:
   contents: read
@@ -20,14 +22,28 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Sync shows from Google Sheet
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
+          GOOGLE_SHEET_RANGE: ${{ vars.GOOGLE_SHEET_RANGE || 'Shows!A:K' }}
+          SHOWS_TIME_ZONE: ${{ vars.SHOWS_TIME_ZONE || 'America/Chicago' }}
+        run: node scripts/build-shows.mjs
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - name: Prepare static files
         run: |
           mkdir -p _site
-          cp index.html styles.css _site/
+          cp index.html styles.css scripts.js favicon.ico CNAME _site/
           if [ -d assets ]; then cp -R assets _site/assets; fi
+          if [ -d data ]; then cp -R data _site/data; fi
           touch _site/.nojekyll
 
       - name: Upload Pages artifact

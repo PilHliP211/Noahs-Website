@@ -69,7 +69,7 @@ function formatShowDate(dateKey) {
 }
 
 function isValidShow(show) {
-  return Boolean(parseShowDate(show?.date ?? "") && show?.venue && show?.city && show?.state);
+  return Boolean(parseShowDate(show?.date ?? "") && show?.venue && show?.city && (show?.state || show?.region));
 }
 
 function isUpcomingShow(show) {
@@ -102,6 +102,12 @@ function createShowCard(show) {
   const dateParts = formatShowDate(show.date);
   const card = document.createElement("article");
   card.className = "show-card";
+  const region = show.state || show.region || "";
+  const location = [show.city, region].filter(Boolean).join(", ");
+  const timeDetails = [
+    show.doors ? `Doors ${show.doors}` : "",
+    show.time ? `Show ${show.time}` : ""
+  ].filter(Boolean).join(" / ");
 
   const date = document.createElement("time");
   date.className = "show-card__date";
@@ -119,7 +125,7 @@ function createShowCard(show) {
     createTextElement(
       "p",
       "show-card__meta",
-      [show.city, show.state].filter(Boolean).join(", ") + (show.time ? ` - ${show.time}` : "")
+      [location, timeDetails].filter(Boolean).join(" - ")
     )
   );
 
@@ -134,8 +140,8 @@ function createShowCard(show) {
     actions.append(createShowAction(show.ticketUrl, "Tickets", "primary"));
   }
 
-  if (show.venueUrl) {
-    actions.append(createShowAction(show.venueUrl, "Venue details", "secondary"));
+  if (show.eventUrl || show.venueUrl) {
+    actions.append(createShowAction(show.eventUrl || show.venueUrl, "Event details", "secondary"));
   }
 
   card.append(date, details);

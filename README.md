@@ -6,7 +6,7 @@ Static website for Noah Desimone & The Revival at www.noahdesimoneandtherevival.
 
 The repository has a first real one-page site with bio copy, social links, music/show coming-soon states, and upcoming shows loaded from `data/shows.json`. It deploys through GitHub Actions to GitHub Pages.
 
-The next planned feature is a no-server show management flow where Noah can add shows through a private Google Form/Sheet and GitHub Actions generates the static show data for the website.
+The show management flow uses a private Google Form and Google Sheet. GitHub Actions reads the curated `Shows` tab during deployment and writes the static `data/shows.json` file used by the website.
 
 ## Deployment
 
@@ -38,7 +38,7 @@ Then visit `http://localhost:8080`.
 
 ## Updating Shows
 
-Edit `data/shows.json` and add future dates in this format:
+Submit shows through the private Google Form. The response Sheet mirrors submitted fields into the `Shows` tab; set `Status` to `published` on rows that should appear on the site. The generated `data/shows.json` file uses this shape:
 
 ```json
 [
@@ -47,15 +47,44 @@ Edit `data/shows.json` and add future dates in this format:
     "venue": "Venue Name",
     "city": "Pensacola",
     "state": "FL",
+    "doors": "7:00 PM",
     "time": "8:00 PM",
-    "venueUrl": "https://example.com",
+    "eventUrl": "https://example.com/event",
     "ticketUrl": "https://example.com/tickets",
     "notes": "Optional note"
   }
 ]
 ```
 
-Required fields are `date`, `venue`, `city`, and `state`. Shows dated yesterday or earlier are hidden automatically. If no future shows are listed, the site displays a coming-soon message.
+Required fields are `date`, `venue`, `city`, `state`, and `status` in the Sheet. Shows older than yesterday are hidden automatically. If no future shows are listed, the site displays a coming-soon message.
+
+## Google Sheet Sync
+
+The deployment workflow runs `node scripts/build-shows.mjs` before publishing. If `GOOGLE_SERVICE_ACCOUNT_JSON` and `GOOGLE_SHEET_ID` are not set, the script writes an empty `data/shows.json` file so the deployed site still has valid show data.
+
+Sheet edits do not create commits. The generated `data/shows.json` file is written inside the temporary GitHub Actions workspace and copied into the Pages artifact, so the live site changes without adding generated commits to the repo.
+
+The curated Sheet tab must be named `Shows` and use these headers:
+
+```text
+Show date | Venue | City | State or region | Doors time | Show time | Ticket URL | Event URL | Notes | Status
+```
+
+Only rows with `Status` set to `published` are published. `draft` and `canceled` rows are ignored.
+
+Required GitHub secrets:
+
+```text
+GOOGLE_SERVICE_ACCOUNT_JSON
+GOOGLE_SHEET_ID
+```
+
+Optional GitHub variables:
+
+```text
+GOOGLE_SHEET_RANGE=Shows!A:K
+SHOWS_TIME_ZONE=America/Chicago
+```
 
 ## Show Management Plan
 

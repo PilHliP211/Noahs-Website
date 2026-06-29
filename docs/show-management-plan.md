@@ -12,6 +12,8 @@ Use a private Google Form and Google Sheet as the editing surface, then let GitH
 Google Form -> private Google Sheet -> GitHub Actions -> data/shows.json -> GitHub Pages
 ```
 
+Form submissions land in `Form Responses 1`. The curated `Shows` tab mirrors the submitted fields into columns A:I and leaves `Status` in column J as the manual approval control.
+
 This keeps all credentials inside GitHub Actions, keeps the website static, and avoids exposing the raw Sheet to visitors.
 
 ## Why This Approach
@@ -48,8 +50,9 @@ The build should publish only rows with `Status = published`, unless canceled sh
 2. Link the form responses to a private Google Sheet.
 3. Add a curated tab named `Shows`.
 4. Keep raw form responses in the default response tab.
-5. Use formulas or manual review to copy only approved public fields into `Shows`.
-6. Share the Sheet only with approved editors.
+5. Mirror submitted public fields into `Shows` columns A:I.
+6. Set `Status` manually in column J.
+7. Share the Sheet only with approved editors.
 
 The `Shows` tab should be treated as the source of truth for the website.
 
@@ -69,7 +72,7 @@ The website should never receive these credentials. They are only used inside Gi
 
 ## Build Process
 
-Add a script, likely `scripts/build-shows.mjs`, that:
+The repo includes `scripts/build-shows.mjs`, which:
 
 1. Authenticates with Google Sheets using `GOOGLE_SERVICE_ACCOUNT_JSON`.
 2. Reads rows from the `Shows` tab.
@@ -77,8 +80,7 @@ Add a script, likely `scripts/build-shows.mjs`, that:
 4. Filters unpublished rows.
 5. Keeps shows through one day after the show date, then hides older dates.
 6. Sorts visible shows by date ascending.
-7. Optionally moves older shows to a separate archive list or removes them.
-8. Writes normalized data to `data/shows.json`.
+7. Writes normalized data to `data/shows.json`.
 
 Example output:
 
@@ -88,7 +90,7 @@ Example output:
     "date": "2026-08-14",
     "venue": "The Basement",
     "city": "Nashville",
-    "region": "TN",
+    "state": "TN",
     "doors": "7:00 PM",
     "time": "8:00 PM",
     "ticketUrl": "https://example.com",
@@ -100,7 +102,7 @@ Example output:
 
 ## Workflow Plan
 
-Add a workflow that can run manually and on a schedule:
+The deploy workflow runs on pushes, manually, and on a schedule:
 
 ```yaml
 on:
@@ -112,12 +114,16 @@ on:
 The workflow should:
 
 1. Check out the repo.
-2. Install only the small Node dependencies needed for Google Sheets access.
-3. Run the show build script.
-4. Build the static site.
+2. Run the no-dependency Google Sheet sync script.
+3. Prepare the static site artifact.
+4. Upload the Pages artifact.
 5. Deploy to GitHub Pages.
 
 Hourly is enough for show listings. Manual dispatch covers urgent changes.
+
+If `GOOGLE_SERVICE_ACCOUNT_JSON` or `GOOGLE_SHEET_ID` is missing, the sync step writes an empty `data/shows.json` file.
+
+The sync does not commit generated JSON back to the repository. It writes `data/shows.json` in the temporary Actions workspace, copies that file into the Pages artifact, and deploys the artifact.
 
 ## Website Integration
 
@@ -143,7 +149,7 @@ This avoids adopting a framework before the site actually needs one.
 
 1. Create the private Google Form and Sheet.
 2. Create the Google service account and GitHub Actions secrets.
-3. Add `scripts/build-shows.mjs` and `data/shows.json`.
-4. Update the deploy workflow to generate shows before publishing.
-5. Add the public Shows section to the site.
+3. Add `scripts/build-shows.mjs` and `data/shows.json`. Done.
+4. Update the deploy workflow to generate shows before publishing. Done.
+5. Add the public Shows section to the site. Done.
 6. Test draft, published, canceled, missing URL, no-upcoming-shows, same-day, next-day, and older-than-one-day cases.
