@@ -48,24 +48,14 @@ function formatShowDate(dateKey) {
   const date = parseShowDate(dateKey);
 
   if (!date) {
-    return {
-      month: "",
-      day: "",
-      year: ""
-    };
+    return "";
   }
 
-  const parts = new Intl.DateTimeFormat("en-US", {
+  return new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric"
-  }).formatToParts(date);
-
-  return {
-    month: parts.find((part) => part.type === "month")?.value ?? "",
-    day: parts.find((part) => part.type === "day")?.value ?? "",
-    year: parts.find((part) => part.type === "year")?.value ?? ""
-  };
+  }).format(date);
 }
 
 function isValidShow(show) {
@@ -99,7 +89,7 @@ function createShowAction(url, label, variant) {
 }
 
 function createShowCard(show) {
-  const dateParts = formatShowDate(show.date);
+  const dateLabel = formatShowDate(show.date);
   const card = document.createElement("article");
   card.className = "show-card";
   const region = show.state || show.region || "";
@@ -112,11 +102,7 @@ function createShowCard(show) {
   const date = document.createElement("time");
   date.className = "show-card__date";
   date.dateTime = show.date;
-  date.append(
-    createTextElement("span", "", dateParts.month),
-    createTextElement("strong", "", dateParts.day),
-    createTextElement("span", "", dateParts.year)
-  );
+  date.textContent = dateLabel;
 
   const details = document.createElement("div");
   details.className = "show-card__details";

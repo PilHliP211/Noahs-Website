@@ -136,6 +136,41 @@ export function normalizeUrl(value) {
   }
 }
 
+export function normalizeTime(value) {
+  const input = trimCell(value);
+
+  if (!input) {
+    return "";
+  }
+
+  const twelveHourMatch = input.match(/^(\d{1,2})(?::(\d{2}))?(?::\d{2})?\s*([ap])\.?m\.?$/i);
+
+  if (twelveHourMatch) {
+    const hour = Number(twelveHourMatch[1]);
+    const minute = twelveHourMatch[2] ?? "00";
+
+    if (hour >= 1 && hour <= 12 && Number(minute) <= 59) {
+      return `${hour}:${minute.padStart(2, "0")} ${twelveHourMatch[3].toUpperCase()}M`;
+    }
+  }
+
+  const twentyFourHourMatch = input.match(/^(\d{1,2}):(\d{2})(?::\d{2})?$/);
+
+  if (twentyFourHourMatch) {
+    const hour = Number(twentyFourHourMatch[1]);
+    const minute = Number(twentyFourHourMatch[2]);
+
+    if (hour <= 23 && minute <= 59) {
+      const suffix = hour >= 12 ? "PM" : "AM";
+      const displayHour = hour % 12 || 12;
+
+      return `${displayHour}:${String(minute).padStart(2, "0")} ${suffix}`;
+    }
+  }
+
+  return input;
+}
+
 function getTodayKey(timeZone) {
   const parts = new Intl.DateTimeFormat("en-US", {
     timeZone,
@@ -238,8 +273,8 @@ function normalizeShow(row, headerMap, rowNumber) {
     state
   };
 
-  const doors = readField(row, headerMap, "doors");
-  const time = readField(row, headerMap, "time");
+  const doors = normalizeTime(readField(row, headerMap, "doors"));
+  const time = normalizeTime(readField(row, headerMap, "time"));
   const notes = readField(row, headerMap, "notes");
 
   if (doors) {

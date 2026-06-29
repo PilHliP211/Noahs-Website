@@ -408,7 +408,7 @@ h1 .name-lock {
 
 .show-card {
   display: grid;
-  grid-template-columns: 6.75rem minmax(0, 1fr) auto;
+  grid-template-columns: 8.5rem minmax(0, 1fr) auto;
   gap: 1.25rem;
   align-items: center;
   min-height: 8.75rem;
@@ -422,23 +422,19 @@ h1 .name-lock {
 }
 
 .show-card__date {
-  display: grid;
-  align-content: center;
-  justify-items: center;
-  min-height: 6.75rem;
-  padding: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.1rem;
+  padding: 0.7rem 0.8rem;
   border: 1px solid rgba(242, 177, 95, 0.45);
   border-radius: 6px;
   color: var(--accent-soft);
   background: rgba(8, 7, 6, 0.42);
+  font-size: 0.95rem;
   font-weight: 800;
-  text-transform: uppercase;
-}
-
-.show-card__date strong {
-  color: var(--foreground);
-  font-size: 2.05rem;
-  line-height: 1;
+  line-height: 1.1;
+  text-align: center;
 }
 
 .show-card__details h3 {
@@ -581,7 +577,7 @@ h1 .name-lock {
   }
 
   .show-card {
-    grid-template-columns: 5.65rem minmax(0, 1fr);
+    grid-template-columns: 8.25rem minmax(0, 1fr);
   }
 
   .show-card__actions {
@@ -643,14 +639,8 @@ h1 .name-lock {
 
   .show-card__date {
     min-height: 0;
-    grid-template-columns: repeat(3, auto);
     justify-content: start;
-    gap: 0.35rem;
     width: 100%;
-  }
-
-  .show-card__date strong {
-    font-size: 1rem;
   }
 }
 
