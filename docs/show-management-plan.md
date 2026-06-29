@@ -12,7 +12,7 @@ Use a private Google Form and Google Sheet as the editing surface, then let GitH
 Google Form -> private Google Sheet -> GitHub Actions -> data/shows.json -> GitHub Pages
 ```
 
-Form submissions land in `Form Responses 1`. The curated `Shows` tab mirrors the submitted fields into columns A:I and leaves `Status` in column J as the manual approval control.
+Form submissions land in `Form Responses 1`. The curated `Shows` tab mirrors the submitted fields into columns A:I, sets `Status` in column J to `published` by default, and uses `Status override` in column K when a show should be revoked.
 
 This keeps all credentials inside GitHub Actions, keeps the website static, and avoids exposing the raw Sheet to visitors.
 
@@ -40,9 +40,10 @@ The form should collect:
 | Ticket URL | No | Primary call to action when available. |
 | Event URL | No | Useful for Facebook, venue pages, or RSVP links. |
 | Notes | No | Short public note only. |
-| Status | Yes | `draft`, `published`, or `canceled`. |
+| Status | Yes | Generated in the Sheet. Defaults to `published`. |
+| Status override | No | Optional revoke control. Any non-`published` value hides the row. |
 
-The build should publish only rows with `Status = published`, unless canceled shows are intentionally displayed. Shows should remain visible through the day after the show date, then be hidden automatically.
+The build should publish only rows whose resolved `Status = published`, unless canceled shows are intentionally displayed. Shows should remain visible through the day after the show date, then be hidden automatically.
 
 ## Google Setup
 
@@ -51,8 +52,9 @@ The build should publish only rows with `Status = published`, unless canceled sh
 3. Add a curated tab named `Shows`.
 4. Keep raw form responses in the default response tab.
 5. Mirror submitted public fields into `Shows` columns A:I.
-6. Set `Status` manually in column J.
-7. Share the Sheet only with approved editors.
+6. Generate default `Status` values in column J.
+7. Use column K for manual status overrides.
+8. Share the Sheet only with approved editors.
 
 The `Shows` tab should be treated as the source of truth for the website.
 
