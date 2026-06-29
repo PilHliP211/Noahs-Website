@@ -3,7 +3,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 import { pathToFileURL } from "node:url";
 
-const DEFAULT_RANGE = "Shows!A:K";
+const DEFAULT_RANGE = "'Form Responses 1'!A:K";
 const DEFAULT_OUTPUT_PATH = "data/shows.json";
 const DEFAULT_TIME_ZONE = "America/Chicago";
 const SHEETS_SCOPE = "https://www.googleapis.com/auth/spreadsheets.readonly";
@@ -174,7 +174,7 @@ export function buildHeaderMap(headerRow) {
   const missing = REQUIRED_FIELDS.filter((field) => !Number.isInteger(headerMap[field]));
 
   if (missing.length) {
-    throw new Error(`Missing required Shows headers: ${missing.join(", ")}`);
+    throw new Error(`Missing required show headers: ${missing.join(", ")}`);
   }
 
   return headerMap;

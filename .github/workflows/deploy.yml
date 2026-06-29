@@ -31,7 +31,7 @@ jobs:
         env:
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
           GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
-          GOOGLE_SHEET_RANGE: ${{ vars.GOOGLE_SHEET_RANGE || 'Shows!A:K' }}
+          GOOGLE_SHEET_RANGE: "'Form Responses 1'!A:K"
           SHOWS_TIME_ZONE: ${{ vars.SHOWS_TIME_ZONE || 'America/Chicago' }}
         run: node scripts/build-shows.mjs
 

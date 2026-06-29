@@ -12,7 +12,7 @@ Use a private Google Form and Google Sheet as the editing surface, then let GitH
 Google Form -> private Google Sheet -> GitHub Actions -> data/shows.json -> GitHub Pages
 ```
 
-Form submissions land in `Form Responses 1`. The curated `Shows` tab mirrors the submitted fields into columns A:I, sets `Status` in column J to `published` by default, and uses `Status override` in column K when a show should be revoked.
+Form submissions land in `Form Responses 1`, which is the source of truth for the website. The form includes a required `Status` dropdown with `published` and `draft`; the shared prefilled link selects `published` by default.
 
 This keeps all credentials inside GitHub Actions, keeps the website static, and avoids exposing the raw Sheet to visitors.
 
@@ -40,23 +40,20 @@ The form should collect:
 | Ticket URL | No | Primary call to action when available. |
 | Event URL | No | Useful for Facebook, venue pages, or RSVP links. |
 | Notes | No | Short public note only. |
-| Status | Yes | Generated in the Sheet. Defaults to `published`. |
-| Status override | No | Optional revoke control. Any non-`published` value hides the row. |
+| Status | Yes | `published` or `draft`. Only `published` rows go live. |
 
-The build should publish only rows whose resolved `Status = published`, unless canceled shows are intentionally displayed. Shows should remain visible through the day after the show date, then be hidden automatically.
+The build should publish only rows with `Status = published`, unless canceled shows are intentionally displayed. Shows should remain visible through the day after the show date, then be hidden automatically.
 
 ## Google Setup
 
 1. Create a Google Form called `Noah Desimone and the Revival Shows`.
 2. Link the form responses to a private Google Sheet.
-3. Add a curated tab named `Shows`.
-4. Keep raw form responses in the default response tab.
-5. Mirror submitted public fields into `Shows` columns A:I.
-6. Generate default `Status` values in column J.
-7. Use column K for manual status overrides.
-8. Share the Sheet only with approved editors.
+3. Keep raw form responses in the default response tab, `Form Responses 1`.
+4. Add a required `Status` dropdown to the form with `published` and `draft`.
+5. Share the prefilled responder link that selects `published`.
+6. Share the Sheet only with approved editors.
 
-The `Shows` tab should be treated as the source of truth for the website.
+The `Form Responses 1` tab should be treated as the source of truth for the website.
 
 ## GitHub Actions Authentication
 
@@ -77,7 +74,7 @@ The website should never receive these credentials. They are only used inside Gi
 The repo includes `scripts/build-shows.mjs`, which:
 
 1. Authenticates with Google Sheets using `GOOGLE_SERVICE_ACCOUNT_JSON`.
-2. Reads rows from the `Shows` tab.
+2. Reads rows from the `Form Responses 1` tab.
 3. Validates required fields.
 4. Filters unpublished rows.
 5. Keeps shows through one day after the show date, then hides older dates.
@@ -144,8 +141,8 @@ This avoids adopting a framework before the site actually needs one.
 - Do not publish the Sheet to the web if using service account auth.
 - Do not commit Google credentials.
 - Give the service account viewer access only.
-- Keep private notes out of the `Shows` tab.
-- Treat every field in `Shows` as public website content.
+- Keep private notes out of `Form Responses 1`.
+- Treat every publishable field in `Form Responses 1` as public website content.
 
 ## Implementation Phases
 
